@@ -1,4 +1,4 @@
-# Daily Data Fetch and Update (Dafni update)
+# Daily Data Fetch and Update (updated Nov 12, 2024)
 
 This project consists of a Python script that fetches product data from an external API, processes it, and saves the resulting data as a CSV file in the repository. A GitHub Action is set up to run this script daily at 12:00 PM, automatically updating the CSV file with the latest data.
 
