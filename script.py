@@ -189,14 +189,14 @@ response_3 = requests.get(
 )
 
 data = response_3.json()
-retailers = data['retailers'].keys()
+fresh_retailers = data['retailers'].keys()
 
 from_date_object = datetime.strptime(data['from'], '%d-%m-%Y')
 to_date_object = datetime.strptime(data['to'], '%d-%m-%Y')
 filename = f"fresh_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
 
 fresh_basket=[]
-for retail in retailers:
+for retail in fresh_retailers:
     for i in data['retailers'][retail]['basket']:
         i['retailer'] = retail
         i['from'] = data['from']
@@ -226,6 +226,7 @@ response_4 = requests.get(
 )
 
 data = response_4.json()
+household_retailers = data['retailers'].keys()
 
 from_date_object = datetime.strptime(data['from'], '%d-%m-%Y')
 to_date_object =datetime.strptime(data['to'], '%d-%m-%Y')
@@ -233,7 +234,7 @@ filename = f"household_basket_{str(from_date_object.day)}_{str(from_date_object.
 filename
 
 household_basket = []
-for retail in retailers: 
+for retail in household_retailers: 
     for i in data['retailers'][retail]['basket']:
         i['retailer'] = retail
         i['from'] = data['from']
