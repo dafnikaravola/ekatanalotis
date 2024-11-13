@@ -227,6 +227,11 @@ response_4 = requests.get(
 
 data = response_4.json()
 
+from_date_object = datetime.strptime(data['from'], '%d-%m-%Y')
+to_date_object =datetime.strptime(data['to'], '%d-%m-%Y')
+filename = f"household_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
+filename
+
 household_basket = []
 for retail in retailers: 
     for i in data['retailers'][retail]['basket']:
