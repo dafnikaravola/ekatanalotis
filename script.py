@@ -168,7 +168,7 @@ for item in prod:
 df = pd.DataFrame(results_products)
 df.to_csv(f"data{today}.csv", index=False)
 
-
+### Καλάθι οπωροκηπευτικών
 
 response_3 = requests.get(
     'https://warply.s3.amazonaws.com/applications/ed840ad545884deeb6c6b699176797ed/basket-retailers/freshbasket.json?v=1730710976905',
@@ -188,24 +188,24 @@ response_3 = requests.get(
     }
 )
 
-data = response_3.json()
-fresh_retailers = data['retailers'].keys()
+data_fresh = response_3.json()
+fresh_retailers = data_fresh['retailers'].keys() 
 
-from_date_object = datetime.strptime(data['from'], '%d-%m-%Y')
-to_date_object = datetime.strptime(data['to'], '%d-%m-%Y')
-filename = f"fresh_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
+from_date_object = datetime.strptime(data_fresh['from'], '%d-%m-%Y')
+to_date_object = datetime.strptime(data_fresh['to'], '%d-%m-%Y')
+filename_fresh = f"fresh_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
 
 fresh_basket=[]
 for retail in fresh_retailers:
-    for i in data['retailers'][retail]['basket']:
+    for i in data_fresh['retailers'][retail]['basket']:
         i['retailer'] = retail
-        i['from'] = data['from']
-        i['to'] = data['to']
+        i['from'] = data_fresh['from']
+        i['to'] = data_fresh['to']
         fresh_basket.append(i)
+        
+pd.DataFrame(fresh_basket).to_csv(filename_fresh, index=False)
 
-pd.DataFrame(fresh_basket).to_csv(filename, index=False)
-
-
+### Καλάθι νοικοκυριού
 
 response_4 = requests.get(
     'https://warply.s3.eu-west-1.amazonaws.com/applications/ed840ad545884deeb6c6b699176797ed/basket-retailers/basket.json',
@@ -225,20 +225,23 @@ response_4 = requests.get(
     }
 )
 
-data = response_4.json()
-household_retailers = data['retailers'].keys()
+data_household = response_4.json()
 
-from_date_object = datetime.strptime(data['from'], '%d-%m-%Y')
-to_date_object =datetime.strptime(data['to'], '%d-%m-%Y')
-filename = f"household_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
-filename
+household_retailers = data_household['retailers'].keys()
+
+from_date_object = datetime.strptime(data_household['from'], '%d-%m-%Y')
+to_date_object =datetime.strptime(data_household['to'], '%d-%m-%Y')
+filename_basket = f"household_basket_{str(from_date_object.day)}_{str(from_date_object.month)}_to_{str(to_date_object.day)}_{str(to_date_object.month)}_{str(to_date_object.year)}.csv"
 
 household_basket = []
 for retail in household_retailers: 
-    for i in data['retailers'][retail]['basket']:
+    for i in data_household['retailers'][retail]['basket']:
         i['retailer'] = retail
-        i['from'] = data['from']
-        i['to'] = data['to']
+        i['from'] = data_household['from']
+        i['to'] = data_household['to']
         household_basket.append(i)
 
-pd.DataFrame(household_basket).to_csv(filename, index=False)
+df_basket = pd.DataFrame(household_basket)
+df_basket.to_csv(filename_basket, index=False)
+
+
